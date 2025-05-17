@@ -18,8 +18,8 @@ exports.handler = async function(event, context) {
     // 現在のタイムスタンプを取得（キャッシュバスター用）
     const timestamp = Date.now();
     
-    // リダイレクト先URL（クエリパラメータ付き）
-    const redirectUrl = `/${character}/${emotion}/${randomNum}?t=${timestamp}`;
+    // リダイレクト先URL（新しい形式: /character/emotionNumber）
+    const redirectUrl = `/${character}/${emotion}${randomNum}?t=${timestamp}`;
     
     // リダイレクトレスポンスを返す
     return {
