@@ -1,27 +1,29 @@
 exports.handler = async function(event, context) {
   try {
-    console.log("Function called with params:", event.queryStringParameters);
-    
+    // クエリパラメータからキャラクターと感情を取得
     const character = event.queryStringParameters.character;
     const emotion = event.queryStringParameters.emotion;
     
+    // パラメータのバリデーション
     if (!character || !emotion) {
       return {
         statusCode: 400,
-        body: JSON.stringify({ error: "Missing character or emotion parameter" })
+        body: JSON.stringify({ error: "キャラクターまたは感情パラメータが不足しています" })
       };
     }
     
     // 1から10までのランダムな数字を生成
     const randomNum = Math.floor(Math.random() * 10) + 1;
-    console.log(`Selected random number: ${randomNum}`);
     
-    // リダイレクト先URL
-    const redirectUrl = `/${character}/${emotion}/${randomNum}`;
-    console.log(`Redirecting to: ${redirectUrl}`);
+    // 現在のタイムスタンプを取得（キャッシュバスター用）
+    const timestamp = Date.now();
     
+    // リダイレクト先URL（クエリパラメータ付き）
+    const redirectUrl = `/${character}/${emotion}/${randomNum}?t=${timestamp}`;
+    
+    // リダイレクトレスポンスを返す
     return {
-      statusCode: 302,  // 302は一時的なリダイレクト
+      statusCode: 302,
       headers: {
         "Location": redirectUrl,
         "Cache-Control": "no-cache, no-store, must-revalidate",
@@ -30,10 +32,11 @@ exports.handler = async function(event, context) {
       }
     };
   } catch (error) {
-    console.log("Error:", error);
+    // エラーが発生した場合のハンドリング
+    console.error("関数実行エラー:", error);
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: "Function execution failed" })
+      body: JSON.stringify({ error: "内部サーバーエラーが発生しました" })
     };
   }
 };
