@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>画像テスト</title>
+  <style>
+    img {
+      max-width: 300px;
+      border: 1px solid #ccc;
+      margin: 10px;
+    }
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+    }
+    button {
+      margin: 10px;
+      padding: 5px 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>画像リダイレクトテスト</h1>
+  
+  <h2>直接アクセスのテスト</h2>
+  <div class="container">
+    <div>
+      <h3>ミサキ（恥ずかしい）</h3>
+      <img id="misaki-shy" src="/misaki/shy" alt="ミサキ（恥ずかしい）">
+    </div>
+    <div>
+      <h3>カエデ（笑顔）</h3>
+      <img id="kaede-happy" src="/kaede/happy" alt="カエデ（笑顔）">
+    </div>
+  </div>
+  
+  <h2>番号指定のテスト</h2>
+  <div class="container">
+    <div>
+      <h3>ミサキ（恥ずかしい）特定番号</h3>
+      <img src="/misaki/shy/1" alt="ミサキ（恥ずかしい）1番">
+    </div>
+    <div>
+      <h3>カエデ（笑顔）特定番号</h3>
+      <img src="/kaede/happy/1" alt="カエデ（笑顔）1番">
+    </div>
+  </div>
+  
+  <h2>JavaScript経由でのランダム表示</h2>
+  <button id="reload-btn">画像をランダム再表示</button>
+  <div class="container" id="js-images">
+    <!-- ここにJavaScriptで画像を追加 -->
+  </div>
+  
+  <script>
+    // JavaScriptでランダム表示を実装
+    function loadRandomImages() {
+      const container = document.getElementById('js-images');
+      container.innerHTML = ''; // クリア
+      
+      // キャラクターと感情の組み合わせ
+      const combinations = [
+        { character: 'misaki', emotion: 'happy', name: 'ミサキ（笑顔）' },
+        { character: 'misaki', emotion: 'angry', name: 'ミサキ（怒り）' },
+        { character: 'misaki', emotion: 'sad', name: 'ミサキ（悲しい）' },
+        { character: 'misaki', emotion: 'shy', name: 'ミサキ（恥ずかしい）' },
+        { character: 'kaede', emotion: 'happy', name: 'カエデ（笑顔）' },
+        { character: 'kaede', emotion: 'angry', name: 'カエデ（怒り）' },
+        { character: 'kaede', emotion: 'sad', name: 'カエデ（悲しい）' },
+        { character: 'kaede', emotion: 'shy', name: 'カエデ（恥ずかしい）' },
+        { character: 'kaede', emotion: 'special', name: 'カエデ（特殊）' }
+      ];
+      
+      combinations.forEach(combo => {
+        // 1-10のランダムな数字を生成
+        const randomNum = Math.floor(Math.random() * 10) + 1;
+        
+        // 画像要素を作成
+        const div = document.createElement('div');
+        const h3 = document.createElement('h3');
+        h3.textContent = combo.name;
+        
+        const img = document.createElement('img');
+        img.src = `/${combo.character}/${combo.emotion}/${randomNum}`;
+        img.alt = `${combo.name}（ランダム）`;
+        
+        div.appendChild(h3);
+        div.appendChild(img);
+        container.appendChild(div);
+      });
+    }
+    
+    // ページロード時に実行
+    document.addEventListener('DOMContentLoaded', loadRandomImages);
+    
+    // ボタンクリックでリロード
+    document.getElementById('reload-btn').addEventListener('click', loadRandomImages);
+  </script>
+</body>
+</html>
