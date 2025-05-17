@@ -1,0 +1,13 @@
+[build]
+  functions = "netlify/functions"
+
+[[redirects]]
+  from = "/:character/:emotion"
+  to = "/.netlify/functions/random-image?character=:character&emotion=:emotion"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/:character/:emotion/:number"
+  to = "/:character/:emotion/:number"
+  status = 200
