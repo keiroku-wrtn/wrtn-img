@@ -4,7 +4,7 @@
 [[redirects]]
   from = "/:character/:emotion"
   to = "/.netlify/functions/random-image?character=:character&emotion=:emotion"
-  status = 200
+  status = 302  # ここを200から302に変更
   force = true
 
 [[redirects]]
